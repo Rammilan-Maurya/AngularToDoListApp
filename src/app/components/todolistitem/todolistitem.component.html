@@ -1,0 +1,55 @@
+<div class="row align-items-center m-1">
+  <div class="col-sm-12 col-md">
+    <a class="fs-3 d-inline p-1" href="#" (click)="onTODOItemAction()">
+      <i [ngClass]="{'bi bi-circle': !ToDoItem.done, 'bi bi-check-circle': ToDoItem.done}"></i>
+    </a>
+    <label role="button" [ngClass]="{'fs-5':true, 'text-decoration-line-through': ToDoItem.done}" (click)="onTODOItemAction()">
+      {{ToDoItem.name}}
+    </label>
+  </div>
+
+  <div class="col-sm-12 col-md-auto">
+    <div class="btn-group float-end" role="group" aria-label="toggle button group">
+      <button type="button" class="btn btn-outline-primary" (click)="ToDoItem.editOn = true" tooltip="Edit To Do List Item"><i class="bi bi-pencil"></i></button>
+      <a type="button" class="btn btn-outline-primary" data-bs-toggle="collapse" href="#collapse-{{ToDoItem.id}}" role="button" aria-expanded="false">
+        <i class="bi bi-list-task" tooltip="To Do List Item Tasks"></i>
+        <span *ngIf="ToDoItem.tasks.length>0" class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-primary">{{ToDoItem.tasks.length}}</span>
+      </a>
+      <button type="button" class="btn btn-outline-danger" (click)="onTODODelete()" tooltip="Delete To Do List Item"><i class="bi bi-trash"></i></button>
+    </div>
+  </div>
+</div>
+
+<div class="collapse" id="collapse-{{ToDoItem.id}}">
+  <div class="card mt-2 text-dark bg-light border-end-0 border-start-0 border-bottom-0">
+    <div class="card-header">Tasks</div>
+    <div class="card-body">
+      <NewItemComponent [Type]="'Task'" (onItemSaveEmitter)="onAddTask($event)" [Size]="'input-group-sm'"></NewItemComponent>
+      
+      <div class="list-group list-group-flush">
+        <div *ngFor="let task of ToDoItem.tasks" class="list-group-item bg-transparent">
+          <div class="row align-items-center" *ngIf="!task.editOn">
+            <div class="col-sm-12 col-md">
+              <a class="fs-5 d-inline p-1" href="#" (click)="onTaskAction(task.id)">
+                <i [ngClass]="{'bi bi-circle': !task.done, 'bi bi-check-circle': task.done}"></i>
+              </a>            
+              <label role="button" [ngClass]="{'text-decoration-line-through': task.done}" (click)="onTaskAction(task.id)">
+                {{task.name}}
+              </label>
+            </div>
+            
+            <div class="col-md-auto col-sm-12">
+              <div class="btn-group btn-group-sm float-end" role="group" aria-label="toggle button group">
+                <button type="button" class="btn btn-outline-primary" (click)="task.editOn = true" tooltip="Edit Task"><i class="bi bi-pencil"></i></button>
+                <button type="button" class="btn btn-outline-danger" (click)="onTaskDelete(task.id)" tooltip="Delete Task"><i class="bi bi-trash"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <ItemEdit *ngIf="task.editOn" [ToDoItem]="task" [Size]="'input-group-sm'" [Type]="'Task'"></ItemEdit>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

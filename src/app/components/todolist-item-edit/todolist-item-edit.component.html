@@ -1,0 +1,15 @@
+<form  [formGroup]="editItemForm" novalidate (ngSubmit)="onSubmit()">
+    <div [ngClass]="'input-group ' + Size">
+        <input type="text" [ngClass]="{'form-control bg-transparent':true, 'is-valid':editItemForm.valid, 'is-invalid':(editItemForm.get('name')?.invalid && editItemForm.get('name')?.dirty && editItemForm.get('name')?.touched)}" formControlName="name" placeholder="{{Type}} name">
+        <button class="btn btn-outline-primary" type="submit"><i class="bi bi-check-lg"></i></button>
+        <button class="btn btn-outline-primary" type="button" (click)="ToDoItem.editOn = !ToDoItem.editOn"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div *ngIf="editItemForm.get('name')?.invalid && editItemForm.get('name')?.dirty || editItemForm.get('name')?.touched">
+        <div *ngIf="editItemForm?.get('name')?.errors?.['required']" class="text-danger">
+          {{Type}} name is required.
+        </div>
+        <div *ngIf="editItemForm.get('name')?.errors?.['minlength']" class="text-danger">
+          {{Type}} name must be at least {{minNameLength}} characters long.
+       </div>     
+      </div>
+</form>

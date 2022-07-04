@@ -1,0 +1,4 @@
+/* You can add global styles to this file, and also import other style files */
+/* cosmo, sandstone, flatly */
+@import "~angular-notifier/styles"; 
+@import "bootswatch/dist/cosmo/bootstrap.min.css";

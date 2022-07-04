@@ -1,0 +1,53 @@
+<div class="p-1 m-auto to-do-list-container">
+  <div class="card border-primary m-auto">
+    <div class="card-header text-center">
+      <h5 class="card-title display-6">To Do List</h5>
+    </div>
+    <div class="card-body">
+      <NewItemComponent [Type]="'To Do List'" (onItemSaveEmitter)="onTODOItemAdd($event)" [Size]="'input-group-lg'"></NewItemComponent>    
+      <div *ngIf="ToDoLists.length>0">
+        <div class="row pb-2">
+          <div class="col-md-6 col-sm-12">
+            <button type="button" [ngClass]="{'btn btn-sm':true, 'btn-primary': FilterValue == 0, 'btn-outline-primary': FilterValue !=0}" (click)="applyFilter(0, SearchValue)">
+              All ({{ToDoLists.length}})
+            </button>
+            <button type="button"[ngClass]="{'btn btn-sm m-2':true, 'btn-primary': FilterValue ==1, 'btn-outline-primary': FilterValue !=1}"  (click)="applyFilter(1, SearchValue)">
+              <i class="bi bi-funnel"></i> Pending ({{PendingCount}})
+            </button>
+            <button type="button" [ngClass]="{'btn btn-sm':true, 'btn-primary': FilterValue ==2, 'btn-outline-primary': FilterValue !=2}"  (click)="applyFilter(2, SearchValue)">
+              <i class="bi bi-funnel"></i> Completed ({{CompletedCount}})
+            </button>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <input class="form-control form-control-sm mt-2" (ngModelChange)="onSearch($event)" [(ngModel)]="SearchValue" type="text" placeholder="Search">
+          </div>      
+          
+        </div>
+    
+        <div *ngIf="FilteredToDoLists.length>0" class="list-group">
+          <div *ngFor="let item of FilteredToDoLists"  class="list-group-item p-0">       
+           
+              <TODOListItem *ngIf="!item.editOn" [ToDoItem]="item" 
+              (onTODODeleteEmitter)="onTODOItemDelete($event)"
+              (onTODOActionEmitter)="onTODOItemAction($event)"></TODOListItem>
+    
+              <ItemEdit *ngIf="item.editOn" [ToDoItem]="item" [Type]="'To Do List'"></ItemEdit>
+            
+          </div>
+        </div>
+  
+        <p class="lead text-center mt-4" *ngIf="FilteredToDoLists.length == 0">
+          No To Do List item found.
+        </p>
+  
+      </div>
+  
+      <p class="lead text-center mt-4" *ngIf="ToDoLists.length == 0">
+        No To Do List item available, please create one.
+      </p>
+      
+    </div>
+  </div>
+</div>
+
+<notifier-container></notifier-container>

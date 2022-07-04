@@ -1,0 +1,17 @@
+<form  [formGroup]="newItemForm" novalidate (ngSubmit)="onSubmit()">
+    <div class="mb-2">
+      <div class="input-group {{Size}}">
+        <input type="text" [ngClass]="{'form-control bg-transparent':true, 'is-valid':newItemForm.valid, 'is-invalid':(newItemForm.get('name')?.invalid && newItemForm.get('name')?.dirty && newItemForm.get('name')?.touched)}" required placeholder="New {{Type}}" formControlName="name">
+        <button class="btn btn-primary" tooltip="Add New {{Type}}" type="submit" ><i class="bi bi-plus-circle"></i></button>
+      </div>
+
+      <div *ngIf="newItemForm.get('name')?.invalid && newItemForm.get('name')?.dirty || newItemForm.get('name')?.touched">
+        <div *ngIf="newItemForm?.get('name')?.errors?.['required']" class="text-danger">
+            {{Type}} name is required.
+        </div>
+        <div *ngIf="newItemForm.get('name')?.errors?.['minlength']" class="text-danger">
+            {{Type}} name must be at least {{minNameLength}} characters long.
+       </div>     
+      </div>
+    </div>
+</form>
